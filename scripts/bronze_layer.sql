@@ -2,8 +2,8 @@
 USE CATALOG data_warehouse;
 USE SCHEMA bronze;
 
--- Creates the tables
-CREATE TABLE IF NOT EXISTS crm_customers (
+-- Creates new tables or replaces existing tables
+CREATE OR REPLACE TABLE crm_customers (
     id INT,
     key VARCHAR(50),
     first_name VARCHAR(50),
@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS crm_customers (
     marital_status VARCHAR(50),
     gender VARCHAR(50),
     create_data DATE
-);
+) USING DELTA;
 
-CREATE TABLE IF NOT EXISTS crm_products (
+CREATE OR REPLACE TABLE crm_products (
     id INT,
     key VARCHAR(50),
     name VARCHAR(50),
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS crm_products (
     line VARCHAR(50),
     start_date TIMESTAMP_NTZ,
     end_date TIMESTAMP_NTZ
-);
+) USING DELTA;
 
-CREATE TABLE IF NOT EXISTS crm_orders (
+CREATE OR REPLACE TABLE crm_orders (
     order_number VARCHAR(50),
     product_key VARCHAR(50),
     customer_id INT,
@@ -33,22 +33,22 @@ CREATE TABLE IF NOT EXISTS crm_orders (
     sales INT,
     quantity INT,
     price INT
-);
+) USING DELTA;
 
-CREATE TABLE IF NOT EXISTS erp_customers (
+CREATE OR REPLACE TABLE erp_customers (
     id VARCHAR(50),
     birthdate DATE,
     gender VARCHAR(50)
-);
+) USING DELTA;
 
-CREATE TABLE IF NOT EXISTS erp_locations (
+CREATE OR REPLACE TABLE erp_locations (
     id VARCHAR(50),
     country VARCHAR(50)
-);
+) USING DELTA;
 
-CREATE TABLE IF NOT EXISTS erp_product_categories (
+CREATE OR REPLACE TABLE erp_product_categories (
     id VARCHAR(50),
     category VARCHAR(50),
     sub_category VARCHAR(50),
     maintenance VARCHAR(50)
-);
+) USING DELTA;
