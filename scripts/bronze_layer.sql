@@ -10,7 +10,7 @@ CREATE OR REPLACE TABLE crm_customers (
     last_name VARCHAR(50),
     marital_status VARCHAR(50),
     gender VARCHAR(50),
-    create_data DATE
+    create_date DATE
 ) USING DELTA;
 
 CREATE OR REPLACE TABLE crm_products (
