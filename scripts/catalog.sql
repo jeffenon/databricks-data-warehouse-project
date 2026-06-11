@@ -12,3 +12,9 @@ USE CATALOG data_warehouse;
 CREATE SCHEMA IF NOT EXISTS bronze;
 CREATE SCHEMA IF NOT EXISTS silver;
 CREATE SCHEMA IF NOT EXISTS gold;
+
+-- Create or replace the volume
+DROP VOLUME IF EXISTS data_warehouse.datasets;
+CREATE VOLUME data_warehouse.datasets;
+
+-- The files were uploaded via the UI.
