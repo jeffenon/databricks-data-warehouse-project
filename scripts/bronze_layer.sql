@@ -53,10 +53,6 @@ CREATE OR REPLACE TABLE erp_product_categories (
     maintenance VARCHAR(50)
 ) USING DELTA;
 
--- Create or replace the volume
-DROP VOLUME IF EXISTS data_warehouse.datasets;
-CREATE VOLUME data_warehouse.datasets;
-
 -- Insert data into the tables
 COPY INTO crm_customers
 FROM '/Volumes/data_warehouse/default/datasets/crm/customers.csv'
