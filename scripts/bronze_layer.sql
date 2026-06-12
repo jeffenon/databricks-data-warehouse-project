@@ -53,33 +53,44 @@ CREATE OR REPLACE TABLE erp_product_categories (
     maintenance VARCHAR(50)
 ) USING DELTA;
 
--- Insert data into the tables
-COPY INTO crm_customers
-FROM '/Volumes/data_warehouse/default/datasets/crm/customers.csv'
-FILEFORMAT = CSV
-FORMAT_OPTIONS ('header'='true', 'inferSchema'='true');
+-- Create Procedure to load data into the tables
+CREATE OR REPLACE PROCEDURE data_warehouse.bronze.load_bronze_tables()
+    LANGUAGE SQL
+    SQL SECURITY INVOKER
+    AS BEGIN
+        USE CATALOG data_warehouse;
+        USE SCHEMA bronze;
 
-COPY INTO crm_orders
-FROM '/Volumes/data_warehouse/default/datasets/crm/sales.csv'
-FILEFORMAT = CSV
-FORMAT_OPTIONS ('header'='true', 'inferSchema'='true');
+        COPY INTO crm_customers
+        FROM '/Volumes/data_warehouse/default/datasets/crm/customers.csv'
+        FILEFORMAT = CSV
+        FORMAT_OPTIONS ('header'='true', 'delimeter'=',', 'inferSchema'='true');
 
-COPY INTO crm_products
-FROM '/Volumes/data_warehouse/default/datasets/crm/products.csv'
-FILEFORMAT = CSV
-FORMAT_OPTIONS ('header'='true', 'inferSchema'='true');
+        COPY INTO crm_orders
+        FROM '/Volumes/data_warehouse/default/datasets/crm/sales.csv'
+        FILEFORMAT = CSV
+        FORMAT_OPTIONS ('header'='true', 'delimeter'=',', 'inferSchema'='true');
 
-COPY INTO erp_customers
-FROM '/Volumes/data_warehouse/default/datasets/erp/customers.csv'
-FILEFORMAT = CSV
-FORMAT_OPTIONS ('header'='true', 'inferSchema'='true');
+        COPY INTO crm_products
+        FROM '/Volumes/data_warehouse/default/datasets/crm/products.csv'
+        FILEFORMAT = CSV
+        FORMAT_OPTIONS ('header'='true', 'delimeter'=',', 'inferSchema'='true');
 
-COPY INTO erp_locations
-FROM '/Volumes/data_warehouse/default/datasets/erp/locations.csv'
-FILEFORMAT = CSV
-FORMAT_OPTIONS ('header'='true', 'inferSchema'='true');
+        COPY INTO erp_customers
+        FROM '/Volumes/data_warehouse/default/datasets/erp/customers.csv'
+        FILEFORMAT = CSV
+        FORMAT_OPTIONS ('header'='true', 'delimeter'=',', 'inferSchema'='true');
 
-COPY INTO erp_product_categories
-FROM '/Volumes/data_warehouse/default/datasets/erp/product_categories.csv'
-FILEFORMAT = CSV
-FORMAT_OPTIONS ('header'='true', 'inferSchema'='true');
+        COPY INTO erp_locations
+        FROM '/Volumes/data_warehouse/default/datasets/erp/locations.csv'
+        FILEFORMAT = CSV
+        FORMAT_OPTIONS ('header'='true', 'delimeter'=',', 'inferSchema'='true');
+
+        COPY INTO erp_product_categories
+        FROM '/Volumes/data_warehouse/default/datasets/erp/product_categories.csv'
+        FILEFORMAT = CSV
+        FORMAT_OPTIONS ('header'='true', 'delimeter'=',', 'inferSchema'='true');
+    END;
+
+-- Execute the procedure
+CALL data_warehouse.bronze.load_bronze_tables()
